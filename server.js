@@ -77,7 +77,7 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
     var username = req.body.username;
     var token = jwt.sign(username, SECRET_TOKEN);
-    res.send(token);
+    res.cookie('myCookie', token);
 })
 const connection = async(URL) => {
     //const URL = 'mongodb+srv://Nitesh:mayday9501@ecommerceweb.efse8.mongodb.net/PROJECT0?retryWrites=true&w=majority'
