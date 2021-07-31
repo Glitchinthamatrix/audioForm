@@ -77,7 +77,7 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
     var username = req.body.username;
     var token = jwt.sign(username, SECRET_TOKEN);
-    res.cookie('thiscookie', 'i stored this cookie');
+    res.cookie('thiscookie', token);
     res.send(token);
 })
 const connection = async(URL) => {
