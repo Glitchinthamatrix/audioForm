@@ -47,9 +47,6 @@
     </form>
 </body>
 <script>
-    var date = new Date();
-    document.getElementById("createdAt").value = date.toLocaleDateString() + ", " + date.toLocaleTimeString();
-
     var speechRecognition = window.webkitSpeechRecognition;
     var recognition = new speechRecognition();
     recognition.continuous = true;
@@ -126,6 +123,14 @@
                 }
             }
         }, 2000);
+    }
+
+    recognition.onstart = () => {
+        instructions.text("listening...")
+    }
+
+    recognition.onerror = () => {
+        instructions.text("error occured")
     }
 </script>
 
