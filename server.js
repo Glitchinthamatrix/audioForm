@@ -8,6 +8,9 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const methodOverride = require('method-override');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+app.use(cookieParser);
 
 
 const URL = "mongodb+srv://Nitesh:mayday9501@ecommerceweb.efse8.mongodb.net/PROJECT0?retryWrites=true&w=majority";
@@ -23,14 +26,7 @@ app.get('/', async(req, res) => {
 })
 app.post('/', async(req, res) => {
 
-    var obj = {
-        createdAt: req.body.createdAt,
-        origin: req.body.origin,
-        destination: req.body.destination,
-        driver: req.body.driver,
-        client: req.body.client,
-    };
-    console.log("posting...", obj)
+    console.log("posting...", req.body);
     try {
         console.log(req.body)
         var doc = await Trip.create(req.body);
@@ -74,7 +70,20 @@ app.get('/delete/:id', async(req, res) => {
     var data = await Trip.findById(req.params.id);
     res.render('delete', { data: data });
 })
-
+app.get('signup', (req, res) => {
+    res.render('form');
+})
+app.post('/signup', async(req, res) => {
+    var username = req.body.username;
+    var token = { token: JWT.sign(username, process.env.ACCESS_TOKEN_SECRET) };
+    res.cookie('myCookie', token, { httpOnly: true, domain: '"testingheroku908.herokuapp.com', path: '/testsignup' })
+    res.send(token);
+})
+app.get('testsignup', (req, res) => {
+    var cookie = req.headers.cookie;
+    console.log(cookie);
+    res.send('your cookie: ', cookie);
+})
 const connection = async(URL) => {
     //const URL = 'mongodb+srv://Nitesh:mayday9501@ecommerceweb.efse8.mongodb.net/PROJECT0?retryWrites=true&w=majority'
     try {
