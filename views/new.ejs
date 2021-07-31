@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .input,
+        .submit {
+            width: 300px;
+            height: 30px;
+            border: 1px solid black;
+            border-radius: 5px;
+            outline: none;
+            background: white;
+            margin-bottom: 5px;
+        }
+        
+        .submit {
+            cursor: pointer;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button onclick='speak()'>speak</button>
+
+    <p style="text-align:center;" id="instruction"></p>
+    <form action="/" method="POST" style="display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center;">
+        <input required class="input" type="text" id="createdAt" disabled name="createdAt">
+        <div class="flex"><input data-description-hindi="ट्रीप कब शुरू हुई?" data-description="the day it starts" required class="input" type="text" id="dateStarted" name="dateStarted" placeholder="dateStarted"><button id="item1" onclick='func(this.id)'>speak</button></div>
+        <div class="flex"><input data-description-hindi="ट्रक कहां लोड हुआ?" data-description="what is the origin" required class="input" type="text" id="origin" name="origin" placeholder="origin"><button id="item2" onclick='func(this.id)'>speak</button></div>
+        <div class="flex"><input data-description-hindi="ट्रक कहाँ जाएगा?" required class="input" data-description="what is the destination" type="text" id="destination" name="destination" placeholder="destination"><button id="item3" onclick='func(this.id)'>speak</button></div>
+        <div class="flex"><input data-description-hindi="आपका नाम?" required class="input" type="text" data-description="driver's name" id="driver" name="driver" placeholder="driver"><button id="item4" onclick='func(this.id)'>speak</button></div>
+        <div class="flex"><input data-description-hindi="आप किसका सामान ले जा रहे हैं, कस्टमर कौन है?" required class="input" data-description="who is the client" type="text" id="client" name="client" placeholder="client"><button id="item5" onclick='func(this.id)'>speak</button></div>
+        <div class="flex"><input data-description-hindi="ट्रीप कब समाप्त हुआ?" required class="input" type="text" data-description="the day trip ends" id="dateEnd" name="dateEnd" placeholder="dateEnd"><button id="item6" onclick='func(this.id)'>speak</button></div>
+        <button class="submit" type="submit">Submit</button>
+    </form>
+</body>
+<script>
+    function speak() {
+        var utter = new window.SpeechSynthesisUtterance("cat");
+        window.speechSynthesis.speak(utter);
+    }
+
+    var date = new Date();
+    document.getElementById("createdAt").value = date.toLocaleDateString() + ", " + date.toLocaleTimeString();
+
+    var speechRecognition = window.webkitSpeechRecognition;
+    var recognition = new speechRecognition();
+    recognition.continuous = true;
+    const hindi = "hi-IN";
+    recognition.lang = hindi;
+
+    var instruction = document.getElementById('instruction');
+
+    function func(id) {
+        var item = document.getElementById(id);
+        var synth = window.speechSynthesis;
+        var utterThis = new SpeechSynthesisUtterance(item.previousSibling.getAttribute('data-description-hindi'));
+        utterThis.lang = 'hi-IN';
+        synth.speak(utterThis);
+        instruction.innerText = item.previousSibling.getAttribute('data-description-hindi');
+
+        setTimeout(() => {
+            recognition.start();
+            recognition.onresult = (e) => {
+                let current = e.resultIndex;
+                let transcript = e.results[current][0].transcript;
+                var isit = new SpeechSynthesisUtterance("क्या आपने कहा " + transcript + ". हां या नहीं में जवाब दें");
+                instruction.innerText = "क्या आपने कहा " + transcript + "?";
+                isit.lang = hindi;
+                synth.speak(isit);
+                item.previousSibling.value = transcript;
+                var confirmation = new speechRecognition();
+                confirmation.continuous = true;
+                confirmation.lang = 'hi-IN';
+                recognition.stop()
+                setTimeout(() => {
+                    confirmation.start();
+                }, 2000);
+                confirmation.onresult = (e) => {
+                    let current = e.resultIndex;
+                    let transcript = e.results[current][0].transcript;
+                    if (transcript === 'हाँ' || transcript === 'हा' || transcript === 'हां') {
+                        var say = new SpeechSynthesisUtterance(`ठीक है. अगली जानकारी भरें`);
+                        say.lang = hindi;
+                        instruction.innerText = `ठीक है, अगली जानकारी भरें`;
+                        synth.speak(say);
+                        confirmation.stop();
+                    } else if (transcript === 'नहीं' || transcript === 'नही') {
+                        var say = new SpeechSynthesisUtterance(`तो फिर आपने क्या कहा?`);
+                        say.lang = hindi;
+                        item.previousSibling.value = '';
+                        instruction.innerText = `तो फिर आपने क्या कहा?`;
+                        synth.speak(say);
+                        setTimeout(() => {
+                            var edition = new speechRecognition();
+                            edition.continuous = true;
+                            edition.lang = 'hi-IN';
+                            edition.start();
+                            edition.onresult = (e) => {
+                                let current = e.resultIndex;
+                                let transcript = e.results[current][0].transcript;
+                                item.previousSibling.value = transcript;
+                                edition.stop()
+                                var say = new SpeechSynthesisUtterance(`ठीक है. ${item.previousSibling.value} भर दिया गया है. अगली जानकारी भरें`);
+                                say.lang = hindi;
+                                instruction.innerText = "'" + item.previousSibling.value + "' " + "भर दिया गया है";
+                                synth.speak(say)
+                            }
+                        }, 2000);
+                    } else if (transcript !== 'हाँ' && transcript !== 'नहीं') {
+                        confirmation.stop()
+                        let text = `आप जो कह रहे हैं वह मजाक के लिए अच्छा है लेकिन हम यहां काम कर रहे हैं. आपको हाँ या ना कहना चाहिए था, लेकिन आपको तो है चरबी.आपने कहा " ${transcript} ". ऐसे कैसे मानोगे. रुको अभी महिला पुलिस बुला के तुम्हारी गांड मारती हूं`
+                        var say = new SpeechSynthesisUtterance(text);
+                        say.lang = hindi;
+                        instruction.value = item.previousSibling.innerText = text;
+                        synth.speak(say);
+                    }
+                }
+            }
+        }, 2000);
+    }
+
+
+    recognition.onstart = () => {
+        console.log("listening...")
+    }
+
+    recognition.onerror = () => {
+        console.log("error occured")
+    }
+</script>
+
+</html>

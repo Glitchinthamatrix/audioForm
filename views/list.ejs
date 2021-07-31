@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            padding: 15px 0px 15px 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="item"><a href="/new">Create new</a></div>
+
+
+    <% if(typeof data !== "undefined"){ %>
+
+        <% Array.from(data).forEach((item)=>{ %>
+
+            <div class="container" style="display:flex; flex-direction:column; border:1px solid black;">
+                <div class="item">
+                    ID:
+                    <%= item._id %>
+                </div>
+                <div class="item">
+                    created on:
+                    <%= item.createdAt %>
+                </div>
+                <div class="item">
+                    date started:
+                    <%= item.dateStarted %>
+                </div>
+                <div class="item">
+                    origin:
+                    <%= item.origin %>
+                </div>
+                <div class="item">
+                    destination:
+                    <%= item.destination %>
+                </div>
+                <div class="item">
+                    driver:
+                    <%= item.driver %>
+                </div>
+                <div class="item">
+                    client:
+                    <%= item.client %>
+                </div>
+                <div class="item">
+                    ends:
+                    <%= item.dateEnd %>
+                </div>
+                <a href="/edit/<%= item._id %>">Edit</a>
+                <a href="/delete/<%= item._id %>">Delete</a>
+            </div>
+
+            <% }) %>
+
+                <% } %>
+</body>
+
+</html>
