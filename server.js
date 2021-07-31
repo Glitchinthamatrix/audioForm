@@ -12,6 +12,7 @@ const jwt = require('jsonwebtoken');
 // const cookieParser = require('cookie-parser');
 // app.use(cookieParser);
 
+var SECRET_TOKEN = process.env.ACCESS_TOKEN_SECRET;
 
 const URL = "mongodb+srv://Nitesh:mayday9501@ecommerceweb.efse8.mongodb.net/PROJECT0?retryWrites=true&w=majority";
 
@@ -75,7 +76,7 @@ app.get('/signup', (req, res) => {
 })
 app.post('/signup', (req, res) => {
     var username = req.body.username;
-    var token = jwt.sign(username, '8NKkaXnA7065RIeJYUpA');
+    var token = jwt.sign(username, SECRET_TOKEN);
     res.send(token);
 })
 const connection = async(URL) => {
