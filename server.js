@@ -75,7 +75,7 @@ app.get('/signup', (req, res) => {
 })
 app.post('/signup', (req, res) => {
     var username = req.body.username;
-    var token = jwt.sign(username, process.env.ACCESS_TOKEN_SECRET);
+    var token = jwt.sign(username, '8NKkaXnA7065RIeJYUpA');
     res.send(token);
 })
 const connection = async(URL) => {
