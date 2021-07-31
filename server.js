@@ -77,9 +77,15 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
     var username = req.body.username;
     var token = jwt.sign(username, SECRET_TOKEN);
-    res.cookie('thiscookie', token);
+    res.cookie('thiscookie', token, { domain: 'testingheroku908.herokuapp.com', path: '/checkcookie' });
     res.send(token);
 })
+app.get('/checkcookie', (req, res) => {
+    var header = req.headers;
+    var cookie = req.headers.cookie || req.headers.thiscookie || 'got nothing for cookie';
+    res.send('header' + header + "  " + "cookie: " + cookie)
+})
+
 const connection = async(URL) => {
     //const URL = 'mongodb+srv://Nitesh:mayday9501@ecommerceweb.efse8.mongodb.net/PROJECT0?retryWrites=true&w=majority'
     try {
