@@ -69,7 +69,8 @@
             recognition.onresult = (e) => {
                 let current = e.resultIndex;
                 let transcript = e.results[current][0].transcript;
-                var isit = new SpeechSynthesisUtterance("क्या आपने कहा " + transcript + ". हां या नहीं में जवाब दें");
+                /* हां या नहीं में जवाब दें */
+                var isit = new SpeechSynthesisUtterance("क्या आपने कहा " + transcript + ".");
                 instruction.innerText = "क्या आपने कहा " + transcript + "?";
                 isit.lang = hindi;
                 synth.speak(isit);
