@@ -77,7 +77,7 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
     var username = req.body.username;
     var token = jwt.sign(username, SECRET_TOKEN);
-    res.cookie('thiscookie', token, { domain: 'testingheroku908.herokuapp.com', path: '/checkcookie' });
+    res.cookie('thiscookie', token, { domain: 'testingheroku908.herokuapp.com', path: '/checkcookie', expiresIn: '30000' });
     res.send(token);
 })
 app.get('/checkcookie', (req, res) => {
