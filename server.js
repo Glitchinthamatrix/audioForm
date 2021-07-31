@@ -87,8 +87,8 @@ const connection = async(URL) => {
 
 connection(process.mongodb_uri || URL);
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3500;
 
 app.listen(PORT, () => {
-    console.log('listening to port 3500')
+    console.log('listening to port ' + PORT)
 });

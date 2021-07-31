@@ -5,36 +5,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .input,
-        .submit {
-            width: 300px;
-            height: 30px;
-            border: 1px solid black;
-            border-radius: 5px;
-            outline: none;
-            background: white;
-            margin-bottom: 5px;
-        }
-        
-        .submit {
-            cursor: pointer;
-        }
-    </style>
-</head>
+    <title>neoGrapht</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-<body>
-    <form action="/<%= data._id %>?_method=PUT" method="POST" style="display:flex; flex-direction: column; align-items:center; justify-content:center;">
+    <body>
 
-        <input class="input" type="text" id="dateStarted" name="dateStarted" placeholder="dateStarted" value="<%= data.dateStarted %>">
-        <input class="input" type="text" id="origin" name="origin" placeholder="origin" value="<%= data.origin %>">
-        <input class="input" type="text" id="destination" name="destination" placeholder="destination" value="<%= data.destination %>">
-        <input class="input" type="text" id="driver" name="driver" placeholder="driver" value="<%= data.driver %>">
-        <input class="input" type="text" id="client" name="client" placeholder="client" value="<%= data.client %>">
-        <input class="input" type="text" id="dateEnd" name="dateEnd" placeholder="dateEnd" value="<%= data.dateEnd %>">
-        <button class="submit" type="submit">Submit</button>
-    </form>
-</body>
+        <p class="bg-dark text-light text-center mb-1 mt-1" id="instruction">Edit</p>
+        <% if(typeof data!== 'undefined'){ %>
+            <form action="/<%= data._id %>?_method=PUT" method="POST" style="display:flex; flex-direction: column; align-items:center; justify-content:center;">
+                <div class="form-group">
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रीप कब शुरू हुई?" data-description="the day it starts" required value="<%= data.dateStarted %>" type="text" id="dateStarted" name="dateStarted" placeholder="dateStarted">
+                    </div>
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रक कहां लोड हुआ?" data-description="what is the origin" required value="<%= data.origin %>" type="text" id="origin" name="origin" placeholder="origin"></div>
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रक कहाँ जाएगा?" required value="<%= data.destination %>" data-description="what is the destination" type="text" id="destination" name="destination" placeholder="destination">
+                    </div>
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="आपका नाम?" required value="<%= data.driver %>" type="text" data-description="driver's name" id="driver" name="driver" placeholder="driver"></div>
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="कस्टमर कौन है?" required value="<%= data.client %>" data-description="who is the client" type="text" id="client" name="client" placeholder="client"></div>
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रीप कब समाप्त हुआ?" required value="<%= data.dateEnd %>" type="text" data-description="the day trip ends" id="dateEnd" name="dateEnd" placeholder="dateEnd"></div>
+                </div>
+                <button class="btn bg-dark text-light" class="submit" type="submit">Submit</button>
+            </form>
+            <% } %>
+    </body>
+
 
 </html>

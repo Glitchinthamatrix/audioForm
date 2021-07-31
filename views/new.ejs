@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>neoGrapht</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         .input,
         .submit {
@@ -21,30 +23,30 @@
             cursor: pointer;
         }
     </style>
-    <title>Document</title>
 </head>
 
 <body>
-
-
+    <h1 class="bg-dark text-light mt-1 mb-1 text-center">Create new</h1>
     <p style="text-align:center;" id="instruction"></p>
     <form action="/" method="POST" style="display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center;">
-        <input required class="input" type="text" id="createdAt" disabled name="createdAt">
-        <div class="flex"><input data-description-hindi="ट्रीप कब शुरू हुई?" data-description="the day it starts" required class="input" type="text" id="dateStarted" name="dateStarted" placeholder="dateStarted"><button id="item1" onclick='func(this.id)'>speak</button></div>
-        <div class="flex"><input data-description-hindi="ट्रक कहां लोड हुआ?" data-description="what is the origin" required class="input" type="text" id="origin" name="origin" placeholder="origin"><button id="item2" onclick='func(this.id)'>speak</button></div>
-        <div class="flex"><input data-description-hindi="ट्रक कहाँ जाएगा?" required class="input" data-description="what is the destination" type="text" id="destination" name="destination" placeholder="destination"><button id="item3" onclick='func(this.id)'>speak</button></div>
-        <div class="flex"><input data-description-hindi="आपका नाम?" required class="input" type="text" data-description="driver's name" id="driver" name="driver" placeholder="driver"><button id="item4" onclick='func(this.id)'>speak</button></div>
-        <div class="flex"><input data-description-hindi="कस्टमर कौन है?" required class="input" data-description="who is the client" type="text" id="client" name="client" placeholder="client"><button id="item5" onclick='func(this.id)'>speak</button></div>
-        <div class="flex"><input data-description-hindi="ट्रीप कब समाप्त हुआ?" required class="input" type="text" data-description="the day trip ends" id="dateEnd" name="dateEnd" placeholder="dateEnd"><button id="item6" onclick='func(this.id)'>speak</button></div>
-        <button class="submit" type="submit">Submit</button>
+        <div class="form-group">
+            <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रीप कब शुरू हुई?" data-description="the day it starts" required class="input" type="text" id="dateStarted" name="dateStarted" placeholder="dateStarted"><button class="btn bg-dark text-light btn-sm"
+                    id="item1" onclick='func(this.id)'>speak</button></div>
+            <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रक कहां लोड हुआ?" data-description="what is the origin" required class="input" type="text" id="origin" name="origin" placeholder="origin"><button class="btn bg-dark text-light btn-sm"
+                    id="item2" onclick='func(this.id)'>speak</button></div>
+            <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रक कहाँ जाएगा?" required class="input" data-description="what is the destination" type="text" id="destination" name="destination" placeholder="destination"><button class="btn bg-dark text-light btn-sm"
+                    id="item3" onclick='func(this.id)'>speak</button></div>
+            <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="आपका नाम?" required class="input" type="text" data-description="driver's name" id="driver" name="driver" placeholder="driver"><button class="btn bg-dark text-light btn-sm" id="item4"
+                    onclick='func(this.id)'>speak</button></div>
+            <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="कस्टमर कौन है?" required class="input" data-description="who is the client" type="text" id="client" name="client" placeholder="client"><button class="btn bg-dark text-light btn-sm" id="item5"
+                    onclick='func(this.id)'>speak</button></div>
+            <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रीप कब समाप्त हुआ?" required class="input" type="text" data-description="the day trip ends" id="dateEnd" name="dateEnd" placeholder="dateEnd"><button class="btn bg-dark text-light btn-sm"
+                    id="item6" onclick='func(this.id)'>speak</button></div>
+        </div>
+        <button class="btn bg-dark text-light" class="submit" type="submit">Submit</button>
     </form>
 </body>
 <script>
-    function speak() {
-        var utter = new window.SpeechSynthesisUtterance("cat");
-        window.speechSynthesis.speak(utter);
-    }
-
     var date = new Date();
     document.getElementById("createdAt").value = date.toLocaleDateString() + ", " + date.toLocaleTimeString();
 
@@ -124,15 +126,6 @@
                 }
             }
         }, 2000);
-    }
-
-
-    recognition.onstart = () => {
-        console.log("listening...")
-    }
-
-    recognition.onerror = () => {
-        console.log("error occured")
     }
 </script>
 

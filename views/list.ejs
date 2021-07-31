@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>neoGrapht</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         .container {
             padding: 15px 0px 15px 15px;
@@ -14,14 +15,14 @@
 </head>
 
 <body>
-    <div class="item"><a href="/new">Create new</a></div>
+    <div class="mb-2 mt-2 d-flex justify-content-center"><a href="/new"><button class="btn bg-dark text-light" >Create new</button></a></div>
 
 
     <% if(typeof data !== "undefined"){ %>
 
         <% Array.from(data).forEach((item)=>{ %>
 
-            <div class="container" style="display:flex; flex-direction:column; border:1px solid black;">
+            <div class="container d-flex flex-column bg-dark text-light" style="border: 1px solid black">
                 <div class="item">
                     ID:
                     <%= item._id %>
@@ -54,10 +55,10 @@
                     ends:
                     <%= item.dateEnd %>
                 </div>
-                <a href="/edit/<%= item._id %>">Edit</a>
-                <a href="/delete/<%= item._id %>">Delete</a>
+                <div class="align-items-center">
+                    <a class="mr-auto" href="/edit/<%= item._id %>"><button class="text-light btn-sm btn bg-secondary">Edit</button></a>
+                    <a class="mr-auto ml-3" href="/delete/<%= item._id %>"><button class="text-light btn-sm btn bg-danger" >Delete</button></a></div>
             </div>
-
             <% }) %>
 
                 <% } %>
