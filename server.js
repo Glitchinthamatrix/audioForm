@@ -77,11 +77,8 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
     var username = req.body.username;
     var token = jwt.sign(username, SECRET_TOKEN);
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-    res.cookie('myCookie', token);
+    res.cookie('thiscookie', 'i stored this cookie');
+    res.send(token);
 })
 const connection = async(URL) => {
     //const URL = 'mongodb+srv://Nitesh:mayday9501@ecommerceweb.efse8.mongodb.net/PROJECT0?retryWrites=true&w=majority'
