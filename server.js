@@ -9,8 +9,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const methodOverride = require('method-override');
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
-app.use(cookieParser);
+// const cookieParser = require('cookie-parser');
+// app.use(cookieParser);
 
 
 const URL = "mongodb+srv://Nitesh:mayday9501@ecommerceweb.efse8.mongodb.net/PROJECT0?retryWrites=true&w=majority";
@@ -67,24 +67,24 @@ app.get('/edit/:id', async(req, res) => {
 })
 
 app.get('/delete/:id', async(req, res) => {
-    var data = await Trip.findById(req.params.id);
-    res.render('delete', { data: data });
-})
-app.get('signup', (req, res) => {
-    res.render('form');
-})
-app.post('/signup', async(req, res) => {
-    var username = req.body.username;
-    var token = JWT.sign(username, process.env.ACCESS_TOKEN_SECRET);
-    res.cookie('myCookie', token, { httpOnly: true, domain: 'testingheroku908.herokuapp.com', path: '/testsignup' })
-    res.send(token);
-})
-app.get('testsignup', (req, res) => {
-    var header = req.headers;
-    var cookie = req.headers.cookie;
-    console.log(cookie);
-    res.send('your cookie: ' + cookie + 'the header: ' + header);
-})
+        var data = await Trip.findById(req.params.id);
+        res.render('delete', { data: data });
+    })
+    // app.get('signup', (req, res) => {
+    //     res.render('form');
+    // })
+    // app.post('/signup', async(req, res) => {
+    //     var username = req.body.username;
+    //     var token = JWT.sign(username, process.env.ACCESS_TOKEN_SECRET);
+    //     res.cookie('myCookie', token, { httpOnly: true, domain: 'testingheroku908.herokuapp.com', path: '/testsignup' })
+    //     res.send(token);
+    // })
+    // app.get('testsignup', (req, res) => {
+    //     var header = req.headers;
+    //     var cookie = req.headers.cookie;
+    //     console.log(cookie);
+    //     res.send('your cookie: ' + cookie + 'the header: ' + header);
+    // })
 const connection = async(URL) => {
     //const URL = 'mongodb+srv://Nitesh:mayday9501@ecommerceweb.efse8.mongodb.net/PROJECT0?retryWrites=true&w=majority'
     try {
