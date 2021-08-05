@@ -93,7 +93,7 @@ app.post('/signup', async(req, res, next) => {
         res.send('कृपया पूछी गई सभी जानकारी दें')
     }
     var exists = await Driver.findOne({ email: email });
-    if (exists) { res.send('आपके पास पहले से ही एक अकाउंट है, अपने डीटेल्स के साथ लॉगिन करें') };
+    if (exists) { res.send('आपका अकाउंट पहले ही बन चुका है, अपने अकाउंट डीटेल्स के साथ लॉगिन करें') };
     try {
 
         const newDriver = new Driver({ email, password });
