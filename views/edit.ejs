@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vector transports-Edit document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <body>
 
@@ -15,13 +16,24 @@
             <form action="/<%= data._id %>?_method=PUT" method="POST" style="display:flex; flex-direction: column; align-items:center; justify-content:center;">
                 <div class="form-group">
                     <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रिप कब शुरू हुई?" data-description="the day it starts" required value="<%= data.dateStarted %>" type="text" id="dateStarted" name="dateStarted" placeholder="ट्रिप कब शुरू हुई:">
+                        <button type="button" class="btn bg-dark text-light btn-sm" id="item1" onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button type="button" id="speak1" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button>
                     </div>
-                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रक कहां लोड हुआ?" data-description="what is the origin" required value="<%= data.origin %>" type="text" id="origin" name="origin" placeholder="ट्रिप कहाँ से शुरू हुई"></div>
+
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रक कहां लोड हुआ?" data-description="what is the origin" required value="<%= data.origin %>" type="text" id="origin" name="origin" placeholder="ट्रिप कहाँ से शुरू हुई">
+                        <button type="button" class="btn bg-dark text-light btn-sm" id="item2" onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button type="button" id="speak2" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
+
                     <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रक कहाँ जाएगा?" required value="<%= data.destination %>" data-description="what is the destination" type="text" id="destination" name="destination" placeholder="ट्रिप कहाँ समाप्त हुई">
+                        <button type="button" class="btn bg-dark text-light btn-sm" id="item3" onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button type="button" id="speak3" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button>
                     </div>
-                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="आपका नाम?" required value="<%= data.driver %>" type="text" data-description="driver's name" id="driver" name="driver" placeholder="ड्राइवर"></div>
-                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="कस्टमर कौन है?" required value="<%= data.client %>" data-description="who is the client" type="text" id="client" name="client" placeholder="कस्टमर"></div>
-                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रिप कब समाप्त हुआ?" required value="<%= data.dateEnd %>" type="text" data-description="the day trip ends" id="dateEnd" name="dateEnd" placeholder="ट्रिप कब समाप्त हुई:"></div>
+
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="आपका नाम?" required value="<%= data.driver %>" type="text" data-description="driver's name" id="driver" name="driver" placeholder="ड्राइवर"><button type="button" class="btn bg-dark text-light btn-sm"
+                            id="item4" onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button type="button" id="speak4" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
+
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="कस्टमर कौन है?" required value="<%= data.client %>" data-description="who is the client" type="text" id="client" name="client" placeholder="कस्टमर"><button type="button" class="btn bg-dark text-light btn-sm"
+                            id="item5" onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button type="button" id="speak5" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
+
+                    <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रिप कब समाप्त हुआ?" required value="<%= data.dateEnd %>" type="text" data-description="the day trip ends" id="dateEnd" name="dateEnd" placeholder="ट्रिप कब समाप्त हुई:">
+                        <button type="button" class="btn bg-dark text-light btn-sm" id="item6" onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button type="button" id="speak6" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
                 </div>
                 <button class="btn bg-dark text-light" class="submit" type="submit">सब्मिट</button>
             </form>
