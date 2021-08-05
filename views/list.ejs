@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>neoGrapht</title>
+    <title>Vector transports-Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         .container {
@@ -15,11 +15,14 @@
 </head>
 
 <body>
+    <div class="container mt-3 mb-1 text-center ml-5">
+        <img src="/images/trucklogo.jpg" width="200" alt="trucklogo">
+    </div>
     <div class="d-flex text-center align-center justify-content-center">
-        <div class="mb-2 mt-2 d-flex justify-content-center"><a href="/new"><button class="btn bg-dark text-light" >Create new</button></a></div>
+        <div class="mb-2 mt-2 d-flex justify-content-center"><a href="/new"><button class="btn bg-dark text-light" >नया डाक्यूमेंट</button></a></div>
         <form class="ml-2 mt-2 " action="/logout" method="POST">
             <button type="submit" class="btn btn-primary">
-            Logout
+                लॉग-आउट
           </button>
         </form>
     </div>
@@ -31,44 +34,44 @@
 
             <div class="container d-flex flex-column bg-dark text-light" style="border: 1px solid black">
                 <div class="item">
-                    ID:
+                    document ID:
                     <%= item._id %>
                 </div>
                 <div class="item">
-                    created on:
+                    डाक्यूमेंट कब बनाया गया:
                     <%= item.createdAt %>
                 </div>
                 <div class="item">
-                    date started:
+                    ट्रीप कब शुरू हुई:
                     <%= item.dateStarted %>
                 </div>
                 <div class="item">
-                    origin:
+                    ट्रीप कहाँ से शुरू हुई:
                     <%= item.origin %>
                 </div>
                 <div class="item">
-                    destination:
+                    ट्रीप कहाँ समाप्त हुई:
                     <%= item.destination %>
                 </div>
                 <div class="item">
-                    driver:
+                    ड्राइवर:
                     <%= item.driver %>
                 </div>
                 <div class="item">
-                    client:
+                    कस्टमर:
                     <%= item.client %>
                 </div>
                 <div class="item">
-                    ends:
+                    ट्रीप कब समाप्त हुई:
                     <%= item.dateEnd %>
                 </div>
                 <div class="item">
-                    createdBy:
+                    यह डाक्यूमेंट किसने बनाया:
                     <%= item.createdBy %>
                 </div>
                 <div class="align-items-center">
-                    <a class="mr-auto" href="/edit/<%= item._id %>"><button class="text-light btn-sm btn bg-secondary">Edit</button></a>
-                    <a class="mr-auto ml-3" href="/delete/<%= item._id %>"><button class="text-light btn-sm btn bg-danger" >Delete</button></a></div>
+                    <a class="mr-auto" href="/edit/<%= item._id %>"><button class="text-light btn-sm btn bg-secondary">एडिट</button></a>
+                    <a class="mr-auto ml-3" href="/delete/<%= item._id %>"><button class="text-light btn-sm btn bg-danger" >डिलीट</button></a></div>
             </div>
             <% }) %>
 

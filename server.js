@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
+const path = require('path');
 dotenv.config();
 const mongoose = require('mongoose');
 const Trip = require('./models/trips')
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(express.static(path.join(__dirname, 'public')))
 const methodOverride = require('method-override');
 const jwt = require('jsonwebtoken');
 const auth = require('./authentication');
@@ -24,7 +26,9 @@ app.set('view engine', 'ejs');
 app.use(methodOverride("_method"));
 
 app.get('/', auth.verifyToken, async(req, res) => {
-    var data = await Trip.find();
+    var authCookie = req.headers.cookie.split('=')[1];
+    var driverID = authCookie.split('driverID')[1]
+    var data = await Trip.find({ createdBy: driverID });
     console.log(data)
     res.render('list', { data: data });
 })
@@ -86,10 +90,10 @@ app.get('/signup', (req, res) => {
 app.post('/signup', async(req, res, next) => {
     const { email, password } = req.body;
     if (!email || !password) {
-        res.send('please fill the fields')
+        res.send('कृपया पूछी गई सभी जानकारी दें')
     }
     var exists = await Driver.findOne({ email: email });
-    if (exists) { res.send('A Driver with this email already exists, use another or signIn') };
+    if (exists) { res.send('आपके पास पहले से ही एक अकाउंट है, अपने डीटेल्स के साथ लॉगिन करें') };
     try {
 
         const newDriver = new Driver({ email, password });
@@ -128,7 +132,7 @@ app.post('/login', async(req, res) => {
             if (err) { res.send('किसी अज्ञात कारण से लॉगिन नहीं किया जा सका') }
             if (matches) {
                 console.log('matches: ', matches);
-                var cookie = jwt.sign(req.body.email, process.env.ACCESS_TOKEN_SECRET);
+                var cookie = jwt.sign(req.body.email, process.env.ACCESS_TOKEN_SECRET) + "driverID" + driver._id;
                 res.cookie('jwt-cookie', cookie, { domain: null, path: '/', httpOnly: true, secure: true });
                 res.redirect('/')
             } else if (!matches) {

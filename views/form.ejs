@@ -6,15 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Vector transports-Signup</title>
 </head>
 
-<body>
-    <form action="/signup" method="POST" class="mb-2">
-        <h1>आपने अपना अकाउंट नहीं बनाया है, कृपया पहले अपना अकाउंट बनाएं</h1>
-        <input type="email" id="email" required name="email" placeholder="अपना ईमेल भरें">
-        <input type="text" id="password" required name="password" placeholder="अपना पासवर्ड सेट  करें">
-        <button type="submit">submit</button>
+<body class="text-center">
+    <div class="container mt-3 mb-4 text-center ml-5">
+        <img src="/images/trucklogo.jpg" width="200" alt="trucklogo">
+    </div>
+    <form class="form-group text-center" action="/signup" method="POST" class="mb-2">
+        <h4>आपने अपना अकाउंट नहीं बनाया है, कृपया पहले अपना अकाउंट बनाएं</h4>
+        <div class="text-center d-flex justify-content-center align-items-center flex-column">
+            <input style="width:300px" class="mb-2 form-control" type="email" id="email" required name="email" placeholder="अपना ईमेल भरें">
+            <input style="width:300px" class="mb-1 form-control" type="text" id="password" required name="password" placeholder="अपना पासवर्ड सेट  करें">
+        </div>
+        <button class="btn bg-dark text-light" type="submit">सब्मिट</button>
     </form>
     <a href="/login">अगर आपका अकाउंट पहले से है तो यहां क्लिक करें</a>
 </body>

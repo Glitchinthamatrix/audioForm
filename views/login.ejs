@@ -5,15 +5,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Vector transports-Login</title>
 </head>
 
-<body>
-    <form action="/login" method="POST">
-        <h1>कृपया अपने अकाउंट की डीटेल्स भरें</h1>
-        <input type="email" required id="email" name="email" placeholder="अपना ईमेल भरें">
-        <input type="text" required id="password" name="password" placeholder="अपना पासवर्ड सेट  करें">
-        <button type="submit">submit</button>
+<body class="text-center">
+    <div class="container mt-3 mb-4 text-center ml-5">
+        <img src="/images/trucklogo.jpg" width="200" alt="trucklogo">
+    </div>
+    <form class="form-group text-center" action="/login" method="POST">
+        <h4>कृपया अपने अकाउंट की डीटेल्स भरें</h4>
+        <div class="text-center d-flex justify-content-center align-items-center flex-column">
+            <input style="width:300px" class="form-control mb-2" type="email" required id="email" name="email" placeholder="अपना ईमेल भरें">
+            <input style="width:300px" class="form-control mb-1" type="text" required id="password" name="password" placeholder="अपना पासवर्ड सेट  करें">
+        </div>
+        <button class="btn bg-dark text-light" type="submit">सब्मिट</button>
     </form>
 </body>
 
