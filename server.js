@@ -113,7 +113,7 @@ app.post('/signup', async(req, res, next) => {
 })
 
 app.post('/logout', (req, res) => {
-    res.clearCookie('jwt-cookie');
+    res.clearCookie('testingheroku908.herokuapp.com');
     res.redirect('/');
     console.log('logged out');
 })
