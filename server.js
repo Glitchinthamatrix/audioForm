@@ -103,7 +103,7 @@ app.post('/signup', async(req, res, next) => {
         //var cookie = jwt.sign(req.body.email, process.env.ACCESS_TOKEN_SECRET);
         var cookie = jwt.sign(req.body.email, process.env.ACCESS_TOKEN_SECRET) + "driverID" + newDriver._id;
         console.log("the thing: " + cookie + "mongoId: " + cookie.split('driverID')[1])
-        res.cookie('jwt-cookie', cookie, { domain: null, path: '/', httpOnly: true, secure: true });
+        res.cookie('jwt-cookie', cookie, { domain: 'testingheroku908.herokuapp.com', path: '/', httpOnly: true, secure: true });
         res.redirect('/');
         console.log('signup gave cookie: ', cookie);
         console.log('POST /signup ends here')
@@ -133,7 +133,7 @@ app.post('/login', async(req, res) => {
             if (matches) {
                 console.log('matches: ', matches);
                 var cookie = jwt.sign(req.body.email, process.env.ACCESS_TOKEN_SECRET) + "driverID" + driver._id;
-                res.cookie('jwt-cookie', cookie, { domain: null, path: '/', httpOnly: true, secure: true });
+                res.cookie('jwt-cookie', cookie, { domain: 'testingheroku908.herokuapp.com', path: '/', httpOnly: true, secure: true });
                 res.redirect('/')
             } else if (!matches) {
                 res.send('पासवर्ड गलत है')
