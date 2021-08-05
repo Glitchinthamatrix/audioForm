@@ -15,7 +15,14 @@
 </head>
 
 <body>
-    <div class="mb-2 mt-2 d-flex justify-content-center"><a href="/new"><button class="btn bg-dark text-light" >Create new</button></a></div>
+    <div class="d-flex text-center align-center justify-content-center">
+        <div class="mb-2 mt-2 d-flex justify-content-center"><a href="/new"><button class="btn bg-dark text-light" >Create new</button></a></div>
+        <form class="ml-2 mt-2 " action="/logout" method="POST">
+            <button type="submit" class="btn btn-primary">
+            Logout
+          </button>
+        </form>
+    </div>
 
 
     <% if(typeof data !== "undefined"){ %>
@@ -54,6 +61,10 @@
                 <div class="item">
                     ends:
                     <%= item.dateEnd %>
+                </div>
+                <div class="item">
+                    createdBy:
+                    <%= item.createdBy %>
                 </div>
                 <div class="align-items-center">
                     <a class="mr-auto" href="/edit/<%= item._id %>"><button class="text-light btn-sm btn bg-secondary">Edit</button></a>

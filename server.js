@@ -9,6 +9,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const methodOverride = require('method-override');
 const jwt = require('jsonwebtoken');
+const auth = require('./authentication');
+const Driver = require('./models/driver');
+const bcrypt = require('bcrypt');
 // const cookieParser = require('cookie-parser');
 // app.use(cookieParser);
 
@@ -20,24 +23,28 @@ const URL = "mongodb+srv://Nitesh:mayday9501@ecommerceweb.efse8.mongodb.net/PROJ
 app.set('view engine', 'ejs');
 app.use(methodOverride("_method"));
 
-app.get('/', async(req, res) => {
+app.get('/', auth.verifyToken, async(req, res) => {
     var data = await Trip.find();
     console.log(data)
     res.render('list', { data: data });
 })
-app.post('/', async(req, res) => {
-
-    console.log("posting...", req.body);
+app.post('/', auth.verifyToken, async(req, res) => {
+    var authCookie = req.headers.cookie.split('=')[1];
+    var driverID = authCookie.split('driverID')[1]
+    console.log('driver ID: ', driverID)
+    console.log("posting,before driverID", req.body);
     try {
+        const { dateStarted, origin, destination, driver, client, dateEnd } = req.body;
         console.log(req.body)
-        var doc = await Trip.create(req.body);
+        var doc = await new Trip({ dateStarted: dateStarted, origin: origin, destination: destination, driver: driver, client: client, dateEnd: dateEnd, createdBy: driverID });
+        await doc.save();
         console.log('doc created: ', doc);
         res.redirect('/')
     } catch (err) {
         console.log('could not post: ', err.message)
     }
 })
-app.put('/:id', async(req, res) => {
+app.put('/:id', auth.verifyToken, async(req, res) => {
     await Trip.findByIdAndUpdate(req.params.id, req.body, (err, docs) => {
         if (err) {
             console.log('could not edit: ', err.message)
@@ -46,7 +53,7 @@ app.put('/:id', async(req, res) => {
         }
     })
 })
-app.delete('/:id', async(req, res) => {
+app.delete('/:id', auth.verifyToken, async(req, res) => {
     await Trip.findByIdAndDelete(req.params.id, (err, docs) => {
         if (err) {
             console.log('could not delete: ', err.message)
@@ -58,32 +65,82 @@ app.delete('/:id', async(req, res) => {
 
 })
 
-app.get('/new', (req, res) => {
-    res.render('new')
+app.get('/new', auth.verifyToken, (req, res) => {
+    var driverID = req.headers.cookie.split('=')[1].split('driverID')[1];
+    console.log('driver ID: ', driverID);
+    res.render('new', { data: driverID })
 })
 
-app.get('/edit/:id', async(req, res) => {
+app.get('/edit/:id', auth.verifyToken, async(req, res) => {
     var data = await Trip.findById(req.params.id);
     res.render('edit', { data: data });
 })
 
-app.get('/delete/:id', async(req, res) => {
+app.get('/delete/:id', auth.verifyToken, async(req, res) => {
     var data = await Trip.findById(req.params.id);
     res.render('delete', { data: data });
 })
 app.get('/signup', (req, res) => {
     res.render('form');
 })
-app.post('/signup', (req, res) => {
-    var username = req.body.username;
-    var token = jwt.sign(username, SECRET_TOKEN);
-    res.cookie('thiscookie', token, { domain: 'testingheroku908.herokuapp.com', path: '/checkcookie', expiresIn: '30000' });
-    res.send(token);
+app.post('/signup', async(req, res, next) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        res.send('please fill the fields')
+    }
+    var exists = await Driver.findOne({ email: email });
+    if (exists) { res.send('A Driver with this email already exists, use another or signIn') };
+    try {
+
+        const newDriver = new Driver({ email, password });
+        await newDriver.save();
+        newdriverID = newDriver._id;
+        console.log('this is the id set to driver that just logged in: ', newdriverID);
+        //var cookie = jwt.sign(req.body.email, process.env.ACCESS_TOKEN_SECRET);
+        var cookie = jwt.sign(req.body.email, process.env.ACCESS_TOKEN_SECRET) + "driverID" + newDriver._id;
+        console.log("the thing: " + cookie + "mongoId: " + cookie.split('driverID')[1])
+        res.cookie('jwt-cookie', cookie, { domain: null, path: '/', httpOnly: true, secure: true });
+        res.redirect('/');
+        console.log('signup gave cookie: ', cookie);
+        console.log('POST /signup ends here')
+    } catch (err) {
+        console.log('error while creating Driver: ', err.message)
+    }
 })
-app.get('/checkcookie', (req, res) => {
-    var header = req.headers;
-    var cookie = req.headers.cookie || req.headers.thiscookie || 'got nothing for cookie';
-    res.send('header' + header + "  " + "cookie: " + cookie)
+
+app.post('/logout', (req, res) => {
+    res.clearCookie('jwt-cookie');
+    res.redirect('/');
+    console.log('logged out');
+})
+app.get('/login', (req, res) => {
+    res.render('login');
+})
+app.post('/login', async(req, res) => {
+    console.log(req.body);
+    const { email, password } = req.body;
+    var driver = await Driver.findOne({ email: req.body.email });
+    console.log('driver: ', driver)
+    if (!driver) {
+        res.send('इस ईमेल पर कोई अकाउंट नहीं है, कृपया अपना अकाउंट बनाएं')
+    } else if (driver) {
+        bcrypt.compare(password, driver.password, (err, matches) => {
+            if (err) { res.send('किसी अज्ञात कारण से लॉगिन नहीं किया जा सका') }
+            if (matches) {
+                console.log('matches: ', matches);
+                var cookie = jwt.sign(req.body.email, process.env.ACCESS_TOKEN_SECRET);
+                res.cookie('jwt-cookie', cookie, { domain: null, path: '/', httpOnly: true, secure: true });
+                res.redirect('/')
+            } else if (!matches) {
+                res.send('पासवर्ड गलत है')
+            } else {
+                res.send('किसी अज्ञात कारण से लॉगिन नहीं किया जा सका');
+                console.log('bhayankar error bhai, bhayankar error')
+            }
+
+        })
+    }
+
 })
 
 const connection = async(URL) => {

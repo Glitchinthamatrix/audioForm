@@ -9,6 +9,7 @@ const tripSchema = new Schema({
     driver: { type: String, required: true },
     client: { type: String, required: true },
     dateEnd: { type: String, required: true },
+    createdBy: { type: String, required: true }
 })
 
 const model = mongoose.model('Trip', tripSchema);

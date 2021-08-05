@@ -5,15 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Document</title>
 </head>
 
 <body>
-    <form action="/signup" method="POST">
-        <input type="text" id="username" name="username" placeholder="username">
-        <input type="text" id="password" name="password" placeholder="password">
+    <form action="/signup" method="POST" class="mb-2">
+        <h1>आपने अपना अकाउंट नहीं बनाया है, कृपया पहले अपना अकाउंट बनाएं</h1>
+        <input type="email" id="email" required name="email" placeholder="अपना ईमेल भरें">
+        <input type="text" id="password" required name="password" placeholder="अपना पासवर्ड सेट  करें">
         <button type="submit">submit</button>
     </form>
+    <a href="/login">अगर आपका अकाउंट पहले से है तो यहां क्लिक करें</a>
 </body>
 
 </html>
