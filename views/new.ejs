@@ -33,17 +33,22 @@
     <form action="/" method="POST" style="display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center;">
         <div class="form-group">
             <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रिप कब शुरू हुई?" data-description="the day it starts" required class="input" type="text" id="dateStarted" name="dateStarted" placeholder="ट्रिप कब शुरू हुई"><button class="btn bg-dark text-light btn-sm"
-                    id="item1" onclick='func(this.id)'><i class="fa fa-microphone" ></i></button></div>
+                    id="item1" onclick='func(this.id)'><i class="fa fa-microphone" ></i></button><button id="speak1" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
+
             <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रक कहां लोड हुआ?" data-description="what is the origin" required class="input" type="text" id="origin" name="origin" placeholder="ट्रिप कहाँ से शुरू हुई"><button class="btn bg-dark text-light btn-sm"
-                    id="item2" onclick='func(this.id)'><i class="fa fa-microphone"></i></button></div>
+                    id="item2" onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button id="speak2" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
+
             <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रक कहाँ जाएगा?" required class="input" data-description="what is the destination" type="text" id="destination" name="destination" placeholder="ट्रिप कहाँ समाप्त हुई"><button class="btn bg-dark text-light btn-sm"
-                    id="item3" onclick='func(this.id)'><i class="fa fa-microphone"></i></button></div>
+                    id="item3" onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button id="speak3" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
+
             <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="आपका नाम?" required class="input" type="text" data-description="driver's name" id="driver" name="driver" placeholder="ड्राइवर"><button class="btn bg-dark text-light btn-sm" id="item4"
-                    onclick='func(this.id)'><i class="fa fa-microphone"></i></button></div>
+                    onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button id="speak4" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
+
             <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="कस्टमर कौन है?" required class="input" data-description="who is the client" type="text" id="client" name="client" placeholder="कस्टमर"><button class="btn bg-dark text-light btn-sm" id="item5"
-                    onclick='func(this.id)'><i class="fa fa-microphone"></i></button></div>
-            <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रिप कब समाप्त हुआ?" required class="input" type="text" data-description="the day trip ends" id="dateEnd" name="dateEnd" placeholder="dateEnd"><button class="btn bg-dark text-light btn-sm"
-                    id="item6" onclick='func(this.id)'><i class="fa fa-microphone"></i></button></div>
+                    onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button id="speak5" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
+
+            <div class="d-flex flex-row p-1"><input class="form-control mr-2" data-description-hindi="ट्रिप कब समाप्त हुआ?" required class="input" type="text" data-description="the day trip ends" id="dateEnd" name="dateEnd" placeholder="ट्रिप कब समाप्त हुई:"><button class="btn bg-dark text-light btn-sm"
+                    id="item6" onclick='func(this.id)'><i class="fa fa-microphone"></i></button><button id="speak6" class="btn ml-2 bg-dark text-light btn-sm" onclick='speakInput(this.id)'><i class="fa fa-volume-up" ></i></button></div>
 
         </div>
         <button class="btn bg-dark text-light" class="submit" type="submit">सब्मिट</button>
@@ -65,65 +70,20 @@
         utterThis.lang = 'hi-IN';
         synth.speak(utterThis);
         instruction.innerText = item.previousSibling.getAttribute('data-description-hindi');
+        item.previousSibling.value = "";
 
         setTimeout(() => {
             recognition.start();
             recognition.onresult = (e) => {
+                recognition.stop();
                 let current = e.resultIndex;
                 let transcript = e.results[current][0].transcript;
                 /* हां या नहीं में जवाब दें */
-                var isit = new SpeechSynthesisUtterance("क्या आपने कहा " + transcript + ".");
-                instruction.innerText = "क्या आपने कहा " + transcript + "?";
-                isit.lang = hindi;
-                synth.speak(isit);
-                item.previousSibling.value = transcript;
-                var confirmation = new speechRecognition();
-                confirmation.continuous = true;
-                confirmation.lang = 'hi-IN';
-                recognition.stop()
-                setTimeout(() => {
-                    confirmation.start();
-                }, 2000);
-                confirmation.onresult = (e) => {
-                    let current = e.resultIndex;
-                    let transcript = e.results[current][0].transcript;
-                    if (transcript === 'हाँ' || transcript === 'हा' || transcript === 'हां') {
-                        var say = new SpeechSynthesisUtterance(`ठीक है. अगली जानकारी भरें`);
-                        say.lang = hindi;
-                        instruction.innerText = `ठीक है, अगली जानकारी भरें`;
-                        synth.speak(say);
-                        confirmation.stop();
-                    } else if (transcript === 'नहीं' || transcript === 'नही') {
-                        var say = new SpeechSynthesisUtterance(`तो फिर आपने क्या कहा?`);
-                        say.lang = hindi;
-                        item.previousSibling.value = '';
-                        instruction.innerText = `तो फिर आपने क्या कहा?`;
-                        synth.speak(say);
-                        setTimeout(() => {
-                            var edition = new speechRecognition();
-                            edition.continuous = true;
-                            edition.lang = 'hi-IN';
-                            edition.start();
-                            edition.onresult = (e) => {
-                                let current = e.resultIndex;
-                                let transcript = e.results[current][0].transcript;
-                                item.previousSibling.value = transcript;
-                                edition.stop()
-                                var say = new SpeechSynthesisUtterance(`ठीक है. ${item.previousSibling.value} भर दिया गया है. अगली जानकारी भरें`);
-                                say.lang = hindi;
-                                instruction.innerText = "'" + item.previousSibling.value + "' " + "भर दिया गया है";
-                                synth.speak(say)
-                            }
-                        }, 2000);
-                    } else if (transcript !== 'हाँ' && transcript !== 'नहीं') {
-                        confirmation.stop()
-                        let text = `आप जो कह रहे हैं वह मजाक के लिए अच्छा है लेकिन हम यहां काम कर रहे हैं. आपको हाँ या ना कहना चाहिए था, लेकिन आपको तो है चरबी.आपने कहा " ${transcript} ". ऐसे कैसे मानोगे. रुको अभी महिला पुलिस बुला के तुम्हारी गांड मारती हूं`
-                        var say = new SpeechSynthesisUtterance(text);
-                        say.lang = hindi;
-                        instruction.value = item.previousSibling.innerText = text;
-                        synth.speak(say);
-                    }
-                }
+                // var isit = new SpeechSynthesisUtterance("क्या आपने कहा " + transcript + ".");
+                // instruction.innerText = "क्या आपने कहा " + transcript + "?";
+                // isit.lang = hindi;
+                // synth.speak(isit);
+                document.getElementById(id).previousSibling.value = transcript;
             }
         }, 2000);
     }
@@ -134,6 +94,19 @@
 
     recognition.onerror = () => {
         instructions.text("error occured")
+    }
+
+    function speakInput(id) {
+        var item = document.getElementById(id);
+        var synth = window.speechSynthesis;
+        var utterThis = new SpeechSynthesisUtterance(item.previousSibling.previousSibling.value);
+        var fillIn = new SpeechSynthesisUtterance('आपने यह जानकारी नहीं दी है');
+        utterThis.lang = 'hi-IN';
+        if (item.previousSibling.previousSibling.value != '') {
+            synth.speak(utterThis)
+        } else {
+            synth.speak(fillIn);
+        }
     }
 </script>
 
