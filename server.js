@@ -133,7 +133,7 @@ app.post('/login', async(req, res) => {
             if (matches) {
                 console.log('matches: ', matches);
                 var cookie = jwt.sign(req.body.email, process.env.ACCESS_TOKEN_SECRET) + "driverID" + driver._id;
-                res.cookie('jwt-cookie', cookie, { domain: null, path: '/', httpOnly: true, secure: true });
+                res.cookie(req.body.username, cookie, { domain: null, path: '/', httpOnly: true, secure: true });
                 res.redirect('/')
             } else if (!matches) {
                 res.send('पासवर्ड गलत है')
